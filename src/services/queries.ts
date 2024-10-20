@@ -8,7 +8,7 @@ export const useTodosIds = () => {
   });
 }
 
-export function useTodos(ids: (number | undefined)[] | undefined) {
+export const useTodos = (ids: (number | undefined)[] | undefined) => {
   return useQueries({
     queries: (ids ?? []).map((id) => ({
       queryKey: ['todo', { id }],
