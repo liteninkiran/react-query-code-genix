@@ -1,18 +1,20 @@
-import { useQueries, useQuery } from '@tanstack/react-query';
-import { getTodo, getTodosIds } from './api';
+import { keepPreviousData, useQueries, useQuery } from '@tanstack/react-query';
+import { getProjects, getTodo, getTodosIds } from './api';
 
-export const useTodosIds = () => {
-  return useQuery({
-    queryKey: ['todos'],
-    queryFn: getTodosIds,
-  });
-}
+export const useTodosIds = () => useQuery({
+  queryKey: ['todos'],
+  queryFn: getTodosIds,
+});
 
-export const useTodos = (ids: (number | undefined)[] | undefined) => {
-  return useQueries({
-    queries: (ids ?? []).map((id) => ({
-      queryKey: ['todo', { id }],
-      queryFn: () => getTodo(id!),
-    })),
-  });
-}
+export const useTodos = (ids: (number | undefined)[] | undefined) => useQueries({
+  queries: (ids ?? []).map((id) => ({
+    queryKey: ['todo', { id }],
+    queryFn: () => getTodo(id!),
+  })),
+});
+
+export const useProjects = (page: number) => useQuery({
+  queryKey: ['projects', { page }],
+  queryFn: () => getProjects(page),
+  placeholderData: keepPreviousData,
+});
